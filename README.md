@@ -43,13 +43,30 @@ This will start both main-app and consumer services, with main-app accessible on
 
 ## Endpoints
 
-main-app
-* Base URL: http://localhost:8080/api/v1/items
-API for managing items.
+1. Base URL: http://localhost:8080/api/v1/items API for managing items.
 
-## Security
+2. The application is secured using JWT (JSON Web Tokens) for authentication and authorization. Users are added to the application via an SQL script that runs during startup, and the private key used to sign the JWT tokens is securely stored in the application.yml configuration file. 
+   3. Auth URL: (POST) http://localhost:8080/api/authenticate
+   4. You can use the username and password as the request below
+   5. Use the JWT response token to securely use the app
 
-The application is secured using JWT (JSON Web Tokens) for authentication and authorization. Users are added to the application via an SQL script that runs during startup, and the private key used to sign the JWT tokens is securely stored in the application.yml configuration file.
-
-* Base URL: (POST) http://localhost:8080/api/authenticate
-
+```bash
+curl --location --request POST 'http://localhost:8080/api/authenticate' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "admin",
+    "password": "admin"
+}'
+```
+```bash
+curl --location --request POST 'http://localhost:8080/api/v1/item' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyNzE0MDc3NywiaWF0IjoxNzI3MTA0Nzc3fQ.Z9wXGFQYja6VllLGgd-_Jd7dAOSZWFgBtJgx5LPfHGM' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "test",
+    "description": "test",
+    "price": 10.91,
+    "quantity": 2,
+    "category": "test"
+}'
+```
