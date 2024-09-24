@@ -10,16 +10,32 @@ spring:
   h2:
     console:
       enabled: true
+      settings:
+        web-allow-others: true
   sql:
     init:
       mode: always
       platform: h2
+  kafka:
+    bootstrap-servers: kafka:9093
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: java_item
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 
 jwt:
   secret: aWqjCUl12Dis6tsFc0zB4AF2bphXOSrU3OVBIZbUcw5ZuidX2wAzBLc5g7iiHTcI
 
 logging:
   level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
     org:
       springframework:
         security: DEBUG
+

@@ -17,6 +17,7 @@ import java.util.UUID;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final KafkaProducerService kafkaProducerService;
 
     @Cacheable(value = "item", keyGenerator = "customKeyGenerator")
     public ItemEntity getItemById(UUID uuid) {
@@ -30,6 +31,7 @@ public class ItemService {
     }
 
     public ItemEntity saveOneItem(ItemEntity itemEntity) {
+        kafkaProducerService.sendMessage(itemEntity.toString());
         return itemRepository.save(itemEntity);
     }
 

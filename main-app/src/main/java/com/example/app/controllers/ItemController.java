@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/{uuid}")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ItemEntity> getItemById(@PathVariable UUID uuid) {
         return new ResponseEntity<>(itemService.getItemById(uuid), HttpStatus.OK);
     }

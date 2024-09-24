@@ -30,6 +30,9 @@ public class ItemServiceTest {
     @InjectMocks
     private ItemService itemService;
 
+    @Mock
+    private KafkaProducerService kafkaProducerService;
+
     @Test
     void getItemById_itemExist_returnItem() {
         var uuid = UUID.fromString("4c22732f-f4f7-436d-9620-c8bcf9fdc696");
@@ -76,6 +79,8 @@ public class ItemServiceTest {
     void saveOneItem_validItem_successSave() {
         when(itemRepository.save(ItemFixture.oneItemValidToSave()))
                 .thenReturn(ItemFixture.oneItem());
+
+        doNothing().when(kafkaProducerService).sendMessage(any());
 
         var savedItem = itemService.saveOneItem(ItemFixture.oneItemValidToSave());
 
