@@ -28,7 +28,7 @@ public class UserDetailService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
                 .password(user.getPassword())
                 .authorities(authorities)
-                .accountLocked(false) // You can implement account status checks
+                .accountLocked(false)
                 .build();
     }
 }

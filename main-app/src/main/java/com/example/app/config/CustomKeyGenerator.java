@@ -12,12 +12,10 @@ public class CustomKeyGenerator implements KeyGenerator {
 
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        for (Object param : params) {
-            if (param instanceof UUID) {
-                return param.toString();
-            }
-        }
-
-        return method.getName() + Arrays.toString(params);
+        return Arrays.stream(params)
+                .filter(obj -> obj instanceof UUID)
+                .map(obj -> method.getName() + obj.toString())
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No UUID parameter found"));
     }
 }
